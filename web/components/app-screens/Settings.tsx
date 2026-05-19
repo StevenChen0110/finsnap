@@ -8,9 +8,10 @@ interface Props { dark: boolean }
 
 export default function Settings({ dark }: Props) {
   const t = T(dark, 'soft')
-  const { settings, updateSettings, transactions, accounts } = useApp()
+  const { settings, updateSettings, transactions, accounts, resetAll } = useApp()
   const [budgetInput, setBudgetInput] = useState(String(settings.budget))
   const [saved, setSaved] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const saveBudget = () => {
     const v = parseInt(budgetInput.replace(/,/g, ''), 10)
@@ -22,10 +23,9 @@ export default function Settings({ dark }: Props) {
   }
 
   const handleReset = () => {
-    if (confirm('確定要清除所有資料嗎？此操作無法復原。')) {
-      localStorage.clear()
-      window.location.reload()
-    }
+    if (!confirmReset) { setConfirmReset(true); return }
+    resetAll()
+    setConfirmReset(false)
   }
 
   return (
@@ -87,10 +87,18 @@ export default function Settings({ dark }: Props) {
           <span style={{ fontSize: 14, color: t.textSecondary }}>本機 localStorage</span>
         </SettingsRow>
         <div style={{ padding: '12px 0', borderTop: `0.5px solid ${t.divider}` }}>
-          <button onClick={handleReset} style={{ background: 'none', border: 'none', color: 'oklch(0.55 0.13 30)', fontFamily: 'inherit', fontSize: 14, fontWeight: 500, cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Icon name="trash" size={16} color="oklch(0.55 0.13 30)" weight={1.8}/>
-            清除所有資料（重設）
-          </button>
+          {confirmReset ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 13, color: t.textSecondary, flex: 1 }}>確定清除全部？</span>
+              <button onClick={handleReset} style={{ background: 'oklch(0.55 0.13 30)', border: 'none', color: '#fff', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '6px 14px', borderRadius: 8 }}>確定</button>
+              <button onClick={() => setConfirmReset(false)} style={{ background: t.divider, border: 'none', color: t.text, fontFamily: 'inherit', fontSize: 13, fontWeight: 500, cursor: 'pointer', padding: '6px 14px', borderRadius: 8 }}>取消</button>
+            </div>
+          ) : (
+            <button onClick={handleReset} style={{ background: 'none', border: 'none', color: 'oklch(0.55 0.13 30)', fontFamily: 'inherit', fontSize: 14, fontWeight: 500, cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon name="trash" size={16} color="oklch(0.55 0.13 30)" weight={1.8}/>
+              清除所有資料（重設）
+            </button>
+          )}
         </div>
       </Section>
 

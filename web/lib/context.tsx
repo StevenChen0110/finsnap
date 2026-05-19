@@ -15,6 +15,7 @@ interface AppCtx {
   updateAccount: (id: string, updates: Partial<Account>) => void
   deleteAccount: (id: string) => void
   updateSettings: (s: Partial<AppSettings>) => void
+  resetAll: () => void
 }
 
 const Ctx = createContext<AppCtx | null>(null)
@@ -66,8 +67,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setSettings(prev => ({ ...prev, ...s }))
   }, [])
 
+  const resetAll = useCallback(() => {
+    localStorage.clear()
+    setTransactions([])
+    setAccounts([])
+    setSettings(defaultSettings)
+  }, [])
+
   return (
-    <Ctx.Provider value={{ transactions, accounts, settings, addTransaction, updateTransaction, deleteTransaction, addAccount, updateAccount, deleteAccount, updateSettings }}>
+    <Ctx.Provider value={{ transactions, accounts, settings, addTransaction, updateTransaction, deleteTransaction, addAccount, updateAccount, deleteAccount, updateSettings, resetAll }}>
       {children}
     </Ctx.Provider>
   )
