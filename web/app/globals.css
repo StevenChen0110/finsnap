@@ -6,16 +6,10 @@ html, body { margin: 0; padding: 0; height: 100%; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* Responsive layout */
+/* Mobile-only layout */
 .app-sidebar { display: none !important; }
 .app-bottom-nav { display: flex !important; }
 .mobile-fab { display: grid !important; }
-
-@media (min-width: 768px) {
-  .app-sidebar { display: flex !important; flex-direction: column; }
-  .app-bottom-nav { display: none !important; }
-  .mobile-fab { display: none !important; }
-}
 
 /* Animations */
 @keyframes fadeIn {

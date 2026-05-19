@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import type { Transaction, Account, AppSettings } from './types'
 import { load, save } from './store'
-import { seedTransactions, seedAccounts, defaultSettings } from './seed'
+import { defaultSettings } from './seed'
 
 interface AppCtx {
   transactions: Transaction[]
@@ -26,8 +26,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    setTransactions(load.transactions() ?? seedTransactions)
-    setAccounts(load.accounts() ?? seedAccounts)
+    setTransactions(load.transactions() ?? [])
+    setAccounts(load.accounts() ?? [])
     setSettings(load.settings() ?? defaultSettings)
     setHydrated(true)
   }, [])
