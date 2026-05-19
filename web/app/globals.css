@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Responsive layout */
+.app-sidebar { display: none !important; }
+.app-bottom-nav { display: flex !important; }
+.mobile-fab { display: grid !important; }
+
+@media (min-width: 768px) {
+  .app-sidebar { display: flex !important; flex-direction: column; }
+  .app-bottom-nav { display: none !important; }
+  .mobile-fab { display: none !important; }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes toastIn {
+  0%   { transform: translate(-50%, -16px); opacity: 0; }
+  100% { transform: translate(-50%, 0);     opacity: 1; }
+}
+
+/* Input reset */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input, select, textarea { font-family: inherit; }
+button { font-family: inherit; }
